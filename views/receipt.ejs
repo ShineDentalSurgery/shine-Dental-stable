@@ -251,8 +251,10 @@ input,select,button{
     <label>Patient Name</label>
     <input type="text" name="patient_name" required>
 
-    <label>Phone</label>
-    <input type="text" name="patient_phone" required>
+<input type="tel" name="patient_phone" required
+       placeholder="+2567XXXXXXXX"
+       pattern="^\+2567[0-9]{8}$"
+       title="Enter number in format +2567XXXXXXXX">
 
     <label>Address</label>
     <input type="text" name="patient_address">
@@ -358,6 +360,14 @@ input,select,button{
 </div>
 
 <script>
+
+document.querySelector('[name="patient_phone"]').addEventListener('blur', function () {
+    let val = this.value;
+
+    if (val.startsWith('0')) {
+        this.value = '+256' + val.substring(1);
+    }
+});
 
 function addService(){
 const table = document.getElementById("servicesContainer");

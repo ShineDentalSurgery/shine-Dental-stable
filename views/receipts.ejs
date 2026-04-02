@@ -84,7 +84,7 @@
                                     <%= receipt.patient_name %>
                                 </a> </td>
                             <td>
-                                <a href="https://wa.me/<%= receipt.patient_phone.replace(/\D/g, '') %>?text=Hello%20<%= encodeURIComponent(receipt.patient_name) %>,%20your%20balance%20is%20<%= encodeURIComponent(receipt.balance) %>."
+                                <a href="https://wa.me/<%= receipt.patient_phone.replace(/\D/g, '') %>?text=Hello%20<%= encodeURIComponent(receipt.patient_name) %>,%20thank%20you%20for%20Choosing%20Shine%20Dental%20Surgery. %>."
                                     target="_blank" style="color: #25D366; text-decoration: none;"
                                     title="Send WhatsApp message">
                                     <%= receipt.patient_phone %>
