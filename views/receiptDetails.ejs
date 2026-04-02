@@ -139,10 +139,10 @@
 
             <div class="text-right">
                 <span><strong>Receipt Number:</strong>
-                    <%= receipt.id %>
+                    <strong style="color: red;"> 0<%= receipt.id %></strong>
                 </span>
 
-                <span><strong>Patient Number:</strong> <%= formatPatientId(receipt.patient_id) %></span>
+                <span><strong>Patient Number:</strong> <strong><%= formatPatientId(receipt.patient_id) %></strong></span>
             </div>
 
 
