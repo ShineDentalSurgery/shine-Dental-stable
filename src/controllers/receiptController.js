@@ -1,7 +1,7 @@
 const ReceiptItem = require("../models/receiptModel");
 const accountModel = require("../models/accounts-model");
 const logger = require("../utils/logger");
-const formatService = require("../utils/serviceFormatter");
+const { formatService } = require("../utils/serviceFormatter");
 
 async function addReceipt(req, res) {
     try {
@@ -246,17 +246,36 @@ async function updateReceipt(req, res) {
 
 async function viewPatientRecords(req, res) {
     try {
-        const patient_phone = req.params.patient_phone;
-        const patientDetails = await ReceiptItem.getPatientDetails(patient_phone);
-        const patientReceipts = await ReceiptItem.getReceiptsByPatient(patient_phone);
+        const patient_name = decodeURIComponent(req.params.patient_name);
+        
+        // First check if there are multiple patients with this name
+        const db = require("../config/db")();
+        const connection = await db;
+        const existingPatients = await ReceiptItem.getExistingPatientByName(connection, patient_name);
+        await connection.end();
 
-        if (!patientDetails) {
-            logger.warn(`Patient with phone ${patient_phone} not found`);
+        if (!existingPatients || existingPatients.length === 0) {
+            logger.warn(`No patients found with name ${patient_name}`);
             return res.status(404).render("error", {
+                title: "Error",
                 message: "Patient not found",
                 user: req.user
             });
         }
+
+        // If multiple patients with same name, show selection page
+        if (existingPatients.length > 1) {
+            return res.render("patientSelection", {
+                title: "Select Patient",
+                patients: existingPatients,
+                searchName: patient_name,
+                user: req.user
+            });
+        }
+
+        // Single patient found, get their receipts
+        const patient = existingPatients[0];
+        const patientReceipts = await ReceiptItem.getReceiptsByPatient(patient.patient_phone);
 
         // Process receipts to format services
         patientReceipts.forEach(receipt => {
@@ -265,7 +284,7 @@ async function viewPatientRecords(req, res) {
 
         return res.render("patientRecords", {
             title: "Patient Records",
-            patientDetails,
+            patientDetails: patient,
             patientReceipts,
             user: req.user
         });
@@ -344,5 +363,49 @@ async function checkDuplicateName(req, res) {
     }
 }
 
-module.exports = { addReceipt, getAllReceipts, receiptDetails, deleteReciept, updateReceipt, viewPatientRecords, searchOldPatients, checkDuplicateName };
+module.exports = { addReceipt, getAllReceipts, receiptDetails, deleteReciept, updateReceipt, viewPatientRecords, viewSpecificPatientRecords, searchOldPatients, checkDuplicateName };
+
+async function viewSpecificPatientRecords(req, res) {
+    try {
+        const patient_name = decodeURIComponent(req.params.patient_name);
+        const patient_phone = decodeURIComponent(req.params.patient_phone);
+        
+        const patientDetails = await ReceiptItem.getPatientDetails(patient_phone);
+        const patientReceipts = await ReceiptItem.getReceiptsByPatient(patient_phone);
+
+        if (!patientDetails) {
+            logger.warn(`Patient with phone ${patient_phone} not found`);
+            return res.status(404).render("error", {
+                title: "Error",
+                message: "Patient not found",
+                user: req.user
+            });
+        }
+
+        // Verify the patient name matches
+        if (patientDetails.patient_name !== patient_name) {
+            logger.warn(`Patient name mismatch: expected ${patient_name}, got ${patientDetails.patient_name}`);
+            return res.status(404).render("error", {
+                title: "Error",
+                message: "Patient not found",
+                user: req.user
+            });
+        }
+
+        // Process receipts to format services
+        patientReceipts.forEach(receipt => {
+            receipt.service = formatService(receipt.service);
+        });
+
+        return res.render("patientRecords", {
+            title: "Patient Records",
+            patientDetails,
+            patientReceipts,
+            user: req.user
+        });
+    } catch (error) {
+        logger.error(`Error in viewSpecificPatientRecords: ${error.message}`, error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
 

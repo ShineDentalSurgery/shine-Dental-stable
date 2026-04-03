@@ -191,9 +191,9 @@
                     </div>
                     <div class="patient-info-item">
                         <strong>Phone Number</strong>
-                        <span><a href="https://wa.me/<%= patientDetails.patient_phone.replace(/\D/g, '') %>"
+                        <span><a href="https://wa.me/<% if (/\D/.test(patientDetails.patient_phone)) { %><%= patientDetails.patient_phone.replace(/\D/g, '') %><% } else { %><%= patientDetails.patient_phone %><% } %>"
                                 target="_blank" style="color: #25D366; text-decoration: none;">
-                                <%= patientDetails.patient_phone %>
+                                Tel: <%= formatPhone(patientDetails.patient_phone) %>
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
                                     alt="WhatsApp" style="height:14px;vertical-align:middle;margin-left:4px;">
                             </a></span>
@@ -227,6 +227,7 @@
                         <thead>
                             <tr>
                                 <th>Receipt ID</th>
+                                <th>Patient ID</th>
                                 <th>Date</th>
                                 <th>Services</th>
                                 <th>Total Amount</th>
@@ -242,6 +243,7 @@
                             <% patientReceipts.forEach(receipt => { %>
                                 <tr>
                                     <td><strong>#<%= receipt.id %></strong></td>
+                                    <td><strong><%= receipt.patient_id || '-' %></strong></td>
                                     <td><%= new Date(receipt.created_at).toLocaleDateString('en-GB') %></td>
                                     <td><%= formatService(receipt.service) %></td>
                                     <td>UGX <%= Number(receipt.total).toLocaleString('en-US') %></td>

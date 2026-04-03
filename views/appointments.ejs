@@ -172,10 +172,10 @@
                             <strong><%= appt.patient_name || 'N/A' %></strong>
                         </td>
                         <td>
-                                                            <a href="https://wa.me/<%= appt.patient_phone.replace(/\D/g, '') %>?text=Hello%20<%= encodeURIComponent(appt.patient_name) %>,%20this%20is%20a%20reminder%20of%20your%20upcoming%20appointment%20at%20Shine%20Dental%20Surgery.%20Your%20next%20visit%20is%20scheduled%20for%20<%= new Date(appt.next_visit).toLocaleDateString('en-GB') %>. %>."
+                                                            <a href="https://wa.me/<%= formatPhone(appt.patient_phone).replace(/\D/g, '') %>?text=Hello%20<%= encodeURIComponent(appt.patient_name) %>,%20this%20is%20a%20reminder%20of%20your%20upcoming%20appointment%20at%20Shine%20Dental%20Surgery.%20Your%20next%20visit%20is%20scheduled%20for%20<%= new Date(appt.next_visit).toLocaleDateString('en-GB') %>. %>."
                                     target="_blank" style="color: #25D366; text-decoration: none;"
                                     title="Send WhatsApp message">
-                                    <%= appt.patient_phone %>
+                                    Tel: <%= formatPhone(appt.patient_phone) %>
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
                                             alt="WhatsApp" style="height:16px;vertical-align:middle;margin-left:4px;">
                                 </a>

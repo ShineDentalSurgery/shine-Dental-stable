@@ -281,3 +281,119 @@
 2026-04-02T13:53:51.132Z [INFO]: New patient assigned ID: sds-26-04-004
 2026-04-02T13:54:04.593Z [ERROR]: Error checking patient by name: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 2026-04-02T13:54:30.906Z [INFO]: Existing patient found by phone - reusing ID: 1
+2026-04-02T14:27:25.491Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:28:56.295Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:31:52.420Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:32:27.131Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:34:42.936Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:38:29.958Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:40:00.311Z [INFO]: Daily Report: Using date 2026-04-02
+2026-04-02T14:40:36.687Z [WARN]: Patient with phone 256706800063 not found
+2026-04-02T14:40:50.095Z [WARN]: Patient with phone 256779208900 not found
+2026-04-02T14:41:37.764Z [WARN]: Patient with phone 256706615734 not found
+2026-04-02T14:45:50.557Z [WARN]: Patient with phone 256700814118 not found
+2026-04-02T14:45:58.334Z [WARN]: Patient with phone 256730365938 not found
+2026-04-02T14:46:53.945Z [WARN]: Patient with phone 256706800063 not found
+2026-04-02T14:46:55.743Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:47:03.337Z [WARN]: Patient with phone 256705599911 not found
+2026-04-02T14:48:09.273Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:48:15.429Z [WARN]: Patient with phone 2567 not found
+2026-04-02T14:49:16.343Z [WARN]: Patient with phone 2567 not found
+2026-04-02T14:49:23.347Z [WARN]: Patient with phone 256759889172 not found
+2026-04-02T14:49:50.654Z [WARN]: Patient with phone 256782976596 not found
+2026-04-02T14:49:56.659Z [WARN]: Patient with phone 256773639395 not found
+2026-04-02T14:51:48.173Z [WARN]: Patient with phone 256749269826 not found
+2026-04-02T14:51:50.489Z [WARN]: Patient with phone 256749269826 not found
+2026-04-02T14:51:56.765Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T14:52:00.427Z [WARN]: Patient with phone 256779208900 not found
+2026-04-02T14:55:53.388Z [WARN]: Patient with phone 2567 not found
+2026-04-02T14:55:59.682Z [WARN]: Patient with phone 256700866797 not found
+2026-04-02T14:56:05.614Z [WARN]: Patient with phone 256743983778 not found
+2026-04-02T14:56:08.316Z [WARN]: Patient with phone 256743983778 not found
+2026-04-02T14:56:11.950Z [WARN]: Patient with phone 256772828105 not found
+2026-04-02T14:58:12.799Z [WARN]: Patient with phone 2567584462455 not found
+2026-04-02T14:58:15.989Z [WARN]: Patient with phone 2567584462455 not found
+2026-04-02T14:58:56.591Z [WARN]: Patient with phone 256747184649 not found
+2026-04-02T14:58:56.599Z [WARN]: Patient with phone 256747184649 not found
+2026-04-02T14:59:30.573Z [WARN]: Patient with phone 256703357036 not found
+2026-04-02T14:59:32.999Z [WARN]: Patient with phone 256703357036 not found
+2026-04-02T15:00:09.684Z [WARN]: Patient with phone 256703357036 not found
+2026-04-02T15:00:15.636Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:00:18.827Z [WARN]: Patient with phone 256747184649 not found
+2026-04-02T15:05:20.989Z [ERROR]: Error checking patient by name: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2026-04-02T15:05:20.991Z [WARN]: No patients found with name NEBI DEBRETSION
+2026-04-02T15:05:27.243Z [ERROR]: Error checking patient by name: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2026-04-02T15:05:27.248Z [WARN]: No patients found with name HABEN TEKLBRAHAN
+2026-04-02T15:05:45.286Z [ERROR]: Error checking patient by name: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2026-04-02T15:05:45.286Z [WARN]: No patients found with name OUNA MARTIN CALVIN
+2026-04-02T15:06:16.994Z [ERROR]: Error checking patient by name: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2026-04-02T15:06:16.994Z [WARN]: No patients found with name OUNA MARTIN CALVIN
+2026-04-02T15:06:31.678Z [ERROR]: Error checking patient by name: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'receipt_app.receipts.patient_address' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+2026-04-02T15:06:31.679Z [WARN]: No patients found with name KALTUM ABDI SHEIKH
+2026-04-02T15:11:04.235Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:11:32.740Z [INFO]: Daily Report: Using date 2026-04-02
+2026-04-02T15:18:44.691Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:20:08.000Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:25:14.870Z [INFO]: New patient assigned ID: sds-26-04-017
+2026-04-02T15:27:12.217Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:27:51.584Z [ERROR]: Error in getAllReceipts: formatService is not a function formatService is not a function
+2026-04-02T15:27:55.955Z [ERROR]: Error in getAllReceipts: formatService is not a function formatService is not a function
+2026-04-02T15:29:01.325Z [ERROR]: Error in getAllReceipts: formatService is not a function formatService is not a function
+2026-04-02T15:29:04.246Z [ERROR]: Error in getAllReceipts: formatService is not a function formatService is not a function
+2026-04-02T15:35:32.249Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:38:15.770Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:39:26.908Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:39:49.589Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:41:05.408Z [INFO]: Dashboard: Using today's date: 2026-04-02
+2026-04-02T15:44:05.658Z [INFO]: Daily Report: Using date 2026-04-02
+2026-04-02T15:45:35.780Z [INFO]: Daily Report: Using date 2026-04-02
+2026-04-02T15:46:25.682Z [INFO]: Daily Report: Using date 2026-04-02
+2026-04-03T07:06:18.168Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T07:06:53.455Z [WARN]: No patients found with name HOSIE DANIEL
+2026-04-03T07:06:55.364Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T07:07:18.306Z [WARN]: No patients found with name hope daniel
+2026-04-03T07:07:48.935Z [WARN]: No patients found with name hope daniel
+2026-04-03T07:08:38.469Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T07:09:34.375Z [WARN]: No patients found with name ABDULAHI AHMED
+2026-04-03T07:11:18.458Z [WARN]: No patients found with name AYNOM GEBREHIWET
+2026-04-03T07:11:26.699Z [WARN]: No patients found with name LUCAS CHARM
+2026-04-03T07:12:16.212Z [WARN]: No patients found with name LUBEGA MOSES
+2026-04-03T07:38:43.992Z [INFO]: New patient assigned ID: sds-26-04-017
+2026-04-03T08:33:27.630Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T09:00:05.157Z [INFO]: New patient assigned ID: sds-26-04-018
+2026-04-03T09:00:51.133Z [WARN]: No patients found with name SSALI DEVONTY
+2026-04-03T09:29:46.765Z [INFO]: New patient assigned ID: sds-26-04-019
+2026-04-03T09:35:12.117Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T09:36:37.306Z [INFO]: New patient assigned ID: sds-26-04-020
+2026-04-03T09:41:40.137Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T09:41:43.570Z [INFO]: Daily Report: Using date 2026-04-03
+2026-04-03T09:46:12.162Z [INFO]: Daily Report: Using date 2026-04-03
+2026-04-03T09:49:28.752Z [INFO]: Daily Report: Using date 2026-04-03
+2026-04-03T10:39:17.397Z [INFO]: New patient assigned ID: sds-26-04-021
+2026-04-03T10:42:09.984Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T10:58:41.351Z [INFO]: New patient assigned ID: sds-26-04-022
+2026-04-03T11:34:53.400Z [INFO]: New patient assigned ID: sds-26-04-023
+2026-04-03T11:37:33.331Z [INFO]: New patient assigned ID: sds-26-04-024
+2026-04-03T11:39:08.581Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T11:50:24.268Z [WARN]: No patients found with name YUNIZ MOHAMED HUSSEIN
+2026-04-03T12:07:12.831Z [INFO]: New patient assigned ID: sds-26-04-025
+2026-04-03T12:18:10.331Z [INFO]: New patient assigned ID: sds-26-04-026
+2026-04-03T12:42:38.377Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T12:51:15.821Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T12:55:30.413Z [INFO]: New patient assigned ID: sds-26-04-027
+2026-04-03T12:56:57.279Z [INFO]: Daily Report: Using date 2026-04-03
+2026-04-03T12:57:04.704Z [INFO]: Daily Report: Using date 2026-04-03
+2026-04-03T12:57:04.970Z [INFO]: Daily Report: Using date 2026-04-03
+2026-04-03T13:13:48.643Z [INFO]: New patient assigned ID: sds-26-04-028
+2026-04-03T13:33:33.425Z [INFO]: New patient assigned ID: sds-26-04-029
+2026-04-03T13:33:33.431Z [ERROR]: Error in createReceipt: Data too long for column 'service' at row 1 Data too long for column 'service' at row 1
+2026-04-03T13:33:33.432Z [ERROR]: Failed to add receipt: Database operation returned null
+2026-04-03T13:33:39.222Z [INFO]: New patient assigned ID: sds-26-04-029
+2026-04-03T13:33:39.223Z [ERROR]: Error in createReceipt: Data too long for column 'service' at row 1 Data too long for column 'service' at row 1
+2026-04-03T13:33:39.223Z [ERROR]: Failed to add receipt: Database operation returned null
+2026-04-03T13:33:50.164Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T13:34:15.622Z [INFO]: Dashboard: Using today's date: 2026-04-03
+2026-04-03T13:38:13.524Z [INFO]: New patient assigned ID: sds-26-04-029
+2026-04-03T13:38:13.525Z [ERROR]: Error in createReceipt: Data too long for column 'service' at row 1 Data too long for column 'service' at row 1
+2026-04-03T13:38:13.526Z [ERROR]: Failed to add receipt: Database operation returned null
+2026-04-03T13:39:08.244Z [INFO]: Dashboard: Using today's date: 2026-04-03

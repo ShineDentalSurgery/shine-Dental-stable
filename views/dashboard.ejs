@@ -481,7 +481,7 @@
                         <% upcomingAppointments.forEach(appointment => { %>
                             <tr>
                                 <td><strong><%= appointment.patient_name %></strong></td>
-                                <td><%= appointment.patient_phone %></td>
+                                <td>Tel: <%= formatPhone(appointment.patient_phone) %></td>
                                 <td><%= new Date(appointment.next_visit).toLocaleDateString('en-GB') %></td>
                                 <td>
                                     <% if (appointment.days_until_visit === 0) { %>

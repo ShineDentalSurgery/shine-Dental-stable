@@ -5,7 +5,7 @@ const static = require("./src/routes/static");
 const cors = require("cors");
 const path = require("path");
 const { formatPatientId } = require("./src/utils/patientIdFormatter");
-const formatService = require("./src/utils/serviceFormatter");
+const { formatService, formatPhone } = require("./src/utils/serviceFormatter");
 const authenticateToken = require('./src/middleware/authMiddleware');
 const receiptRoutes = require("./src/routes/receiptRoutes");
 const invoiceRoutes = require("./src/routes/invoiceRoutes");
@@ -52,6 +52,7 @@ app.use((req, res, next) => {
     res.locals.user = req.user || null;
     res.locals.formatPatientId = formatPatientId;
     res.locals.formatService = formatService;
+    res.locals.formatPhone = formatPhone;
     next();
 });
 
