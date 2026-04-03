@@ -9,7 +9,8 @@ router.post("/check-name", authenticateToken, receiptController.checkDuplicateNa
 router.post("/edit/:receipt_id", authenticateToken, adminMiddleware, receiptController.updateReceipt)
 router.get("/", authenticateToken, receiptController.getAllReceipts);
 router.get("/search/old-patients/search", authenticateToken, receiptController.searchOldPatients);
-router.get("/patient/:patient_phone", authenticateToken, receiptController.viewPatientRecords);
+router.get("/patient/:patient_name", authenticateToken, receiptController.viewPatientRecords);
+router.get("/patient/:patient_name/phone/:patient_phone", authenticateToken, receiptController.viewSpecificPatientRecords);
 router.delete("/delete/:receipt_id", authenticateToken, adminMiddleware, receiptController.deleteReciept);
 router.get("/:receipt_id", authenticateToken, receiptController.receiptDetails);
 router.get("/edit/:receipt_id", authenticateToken, adminMiddleware, async (req, res, next) => {

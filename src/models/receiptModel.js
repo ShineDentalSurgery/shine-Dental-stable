@@ -26,9 +26,9 @@ async function getExistingPatientByName(db, patient_name) {
                 patient_id, 
                 patient_name, 
                 patient_phone, 
-                patient_address,
-                gender,
-                age,
+                ANY_VALUE(patient_address) as patient_address,
+                ANY_VALUE(gender) as gender,
+                ANY_VALUE(age) as age,
                 COUNT(*) as receipt_count,
                 MAX(created_at) as last_visit_date,
                 GROUP_CONCAT(DISTINCT service SEPARATOR ', ') as services

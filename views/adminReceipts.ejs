@@ -332,7 +332,7 @@
                                     <td><strong>#<%= receipt.id %></strong></td>
                                     <td><%= new Date(receipt.created_at).toLocaleDateString('en-GB') %></td>
                                     <td><strong><%= receipt.patient_name %></strong></td>
-                                    <td><%= receipt.patient_phone %></td>
+                                    <td>Tel: <%= formatPhone(receipt.patient_phone) %></td>
                                     <td><small><%= formatService(receipt.service) %></small></td>
                                     <td class="amount">UGX <%= Number(receipt.total).toLocaleString('en-US') %></td>
                                     <td>

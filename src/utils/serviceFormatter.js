@@ -52,4 +52,29 @@ function formatService(service) {
     return String(service);
 }
 
-module.exports = formatService;
+/**
+ * Formats phone numbers to start with 256 for Ugandan numbers
+ * @param {string} phone - The phone number to format
+ * @returns {string} Formatted phone number
+ */
+function formatPhone(phone) {
+    if (!phone) return '';
+    
+    // Remove all non-digit characters
+    const cleanPhone = phone.replace(/\D/g, '');
+    
+    // If already starts with 256, return as is
+    if (cleanPhone.startsWith('256')) {
+        return cleanPhone;
+    }
+    
+    // If starts with 0, remove 0 and add 256 prefix
+    if (cleanPhone.startsWith('0')) {
+        return '256' + cleanPhone.slice(1);
+    }
+    
+    // For any other number, add 256 prefix
+    return '256' + cleanPhone;
+}
+
+module.exports = { formatService, formatPhone };

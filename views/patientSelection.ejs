@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .patient-selection-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .patient-selection-header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+        }
+
+        .patient-selection-header h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .patient-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.2s;
+        }
+
+        .patient-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .patient-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .patient-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .patient-info-item strong {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .patient-info-item span {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .patient-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-patients {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="table">
+        <div class="table-specs">
+            <a href="/receipts" class="back-link">← Back to Receipts</a>
+
+            <div class="patient-selection-container">
+                <div class="patient-selection-header">
+                    <h2>Multiple Patients Found</h2>
+                    <p>Found <%= patients.length %> patient(s) with the name "<%= searchName %>". Please select the correct patient:</p>
+                </div>
+
+                <% if (patients && patients.length > 0) { %>
+                    <% patients.forEach(patient => { %>
+                        <div class="patient-card">
+                            <div class="patient-info-grid">
+                                <div class="patient-info-item">
+                                    <strong>Patient Name</strong>
+                                    <span><%= patient.patient_name %></span>
+                                </div>
+                                <div class="patient-info-item">
+                                    <strong>Phone Number</strong>
+                                    <span>
+                                        <a href="https://wa.me/<% if (/\D/.test(patient.patient_phone)) { %><%= patient.patient_phone.replace(/\D/g, '') %><% } else { %><%= patient.patient_phone %><% } %>"
+                                            target="_blank" style="color: #25D366; text-decoration: none;">
+                                            Tel: <%= formatPhone(patient.patient_phone) %>
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                                                alt="WhatsApp" style="height:14px;vertical-align:middle;margin-left:4px;">
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="patient-info-item">
+                                    <strong>Address</strong>
+                                    <span><%= patient.patient_address || '-' %></span>
+                                </div>
+                                <div class="patient-info-item">
+                                    <strong>Gender</strong>
+                                    <span><%= patient.gender || '-' %></span>
+                                </div>
+                                <div class="patient-info-item">
+                                    <strong>Age</strong>
+                                    <span><%= patient.age || '-' %></span>
+                                </div>
+                                <div class="patient-info-item">
+                                    <strong>Last Visit</strong>
+                                    <span><%= patient.last_visit_date ? new Date(patient.last_visit_date).toLocaleDateString('en-GB') : '-' %></span>
+                                </div>
+                            </div>
+                            <div class="patient-actions">
+                                <a href="/receipts/patient/<%= encodeURIComponent(patient.patient_name) %>/phone/<%= encodeURIComponent(patient.patient_phone) %>"
+                                    class="btn btn-primary">View Records</a>
+                                <a href="/receipt?patient=<%= encodeURIComponent(patient.patient_name) %>&phone=<%= encodeURIComponent(patient.patient_phone) %>"
+                                    class="btn btn-secondary">Add Receipt</a>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="no-patients">
+                        <p>No patients found with the name "<%= searchName %>".</p>
+                        <a href="/receipts" class="btn btn-primary">Back to Receipts</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

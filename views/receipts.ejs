@@ -84,10 +84,10 @@
                                     <%= receipt.patient_name %>
                                 </a> </td>
                             <td>
-                                <a href="https://wa.me/<%= receipt.patient_phone.replace(/\D/g, '') %>?text=Hello%20<%= encodeURIComponent(receipt.patient_name) %>,%20thank%20you%20for%20Choosing%20Shine%20Dental%20Surgery. %>."
+                                <a href="https://wa.me/<%= receipt.patient_phone.replace(/\D/g, '') %>?text=Hello%20<%= encodeURIComponent(receipt.patient_name) %>,%20thank%20you%20for%20Choosing%20Shine%20Dental%20Surgery%>."
                                     target="_blank" style="color: #25D366; text-decoration: none;"
                                     title="Send WhatsApp message">
-                                    <%= receipt.patient_phone %>
+                                    Tel: <%= formatPhone(receipt.patient_phone) %>
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
                                             alt="WhatsApp" style="height:16px;vertical-align:middle;margin-left:4px;">
                                 </a>
@@ -105,7 +105,7 @@
                                     <button onclick="deleteReceipt('<%= receipt.id %>')"
                                         style="color: white;">Delete</button>
                                     <% } %>
-                                <a href="/receipts/patient/<%= receipt.patient_phone %>"
+                                <a href="/receipts/patient/<%= encodeURIComponent(receipt.patient_name) %>"
                                     style="margin-left: 5px; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 3px; display: inline-block;">
                                     View Patient
                                 </a>
@@ -134,11 +134,21 @@
         });
 
         function formatPhoneNumber(phoneNumber) {
-            // Check if the number starts with '0' and replace it with '256'
-            if (phoneNumber.startsWith('0')) {
-                return '+256' + phoneNumber.slice(1);
+            // Remove all non-digit characters
+            const cleanPhone = phoneNumber.replace(/\D/g, '');
+
+            // If already starts with 256, return as is
+            if (cleanPhone.startsWith('256')) {
+                return cleanPhone;
             }
-            return phoneNumber;
+
+            // If starts with 0, remove 0 and add 256 prefix
+            if (cleanPhone.startsWith('0')) {
+                return '256' + cleanPhone.slice(1);
+            }
+
+            // For any other number, add 256 prefix
+            return '256' + cleanPhone;
         }
 
         async function deleteReceipt(receiptId) {
