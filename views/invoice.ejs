@@ -223,9 +223,11 @@ const html=`
 
 document.getElementById("itemsContainer").insertAdjacentHTML("beforeend",html);
 
-document.querySelectorAll(".item-qty,.item-price").forEach(el=>{
-el.addEventListener("input",calculateTotal)
-})
+const newEntry = document.querySelector(`[data-id="${itemCount}"]`);
+newEntry.querySelector(".item-qty").addEventListener("input", calculateTotal);
+newEntry.querySelector(".item-price").addEventListener("input", calculateTotal);
+
+calculateTotal();
 
 }
 
@@ -282,5 +284,8 @@ document.getElementById("items").value=JSON.stringify(items);
 window.onload=function(){
 addItem();
 }
+
+</script>
+
 </body>
 </html>

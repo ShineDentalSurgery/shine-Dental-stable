@@ -1,5 +1,5 @@
 .env
-/node_modules
-/logs
+node_modules
+logs
 logs
 shine_data

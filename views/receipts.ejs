@@ -66,7 +66,8 @@
                         <th>Date</th>
                         <th>Patient Name</th>
                         <th>Phone Number</th>
-                        <th>Total</th>
+                        <th>Amount Paid</th>
+                        <th>Mode of Payment</th>
                         <th>Balance</th>
                         <th>Action</th>
                     </tr>
@@ -93,8 +94,11 @@
                                 </a>
                             </td>
                         <td><span style="color: #000000; font-weight: bold;">
-                                    UGX <%= Number(receipt.total).toLocaleString('en-US') %>
+                                    UGX <%= Number(receipt.amount_paid).toLocaleString('en-US') %>
                                         </span></td>
+                                           <td>
+                                <%= receipt.mode_of_payment %>
+                            </td>
                         <td><span style="color: <%=Number(receipt.balance)> 0 ? '#dc3545' : '#28a745' %>; font-weight:
                                     bold;">
                                     UGX <%= Number(receipt.balance).toLocaleString('en-US') %>

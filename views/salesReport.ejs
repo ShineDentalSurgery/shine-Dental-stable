@@ -612,6 +612,8 @@
                             <th>Visa</th>
                             <th>Mobile Money</th>
                             <th>Balance</th>
+                            <th>Expenses</th>
+                            <th>After Expenses</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -623,6 +625,8 @@
                                 <td><%= (day.visa_sales || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                                 <td><%= (day.mobile_sales || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                                 <td><%= (day.total_balance || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
+                                <td style="color: #dc3545; font-weight: 600;"><%= (day.daily_expenses || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
+                                <td style="color: #28a745; font-weight: 600;"><%= ((day.total_sales || 0) - (day.daily_expenses || 0)).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                             </tr>
                         <% }) %>
                     </tbody>
@@ -720,6 +724,8 @@
                             <th>Visa</th>
                             <th>Mobile Money</th>
                             <th>Balance</th>
+                            <th>Expenses</th>
+                            <th>After Expenses</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -731,6 +737,8 @@
                                 <td><%= (day.visa_sales || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                                 <td><%= (day.mobile_sales || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                                 <td><%= (day.total_balance || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
+                                <td style="color: #dc3545; font-weight: 600;"><%= (day.daily_expenses || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
+                                <td style="color: #28a745; font-weight: 600;"><%= ((day.total_sales || 0) - (day.daily_expenses || 0)).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                             </tr>
                         <% }) %>
                     </tbody>
@@ -820,6 +828,8 @@
                             <th>Visa</th>
                             <th>Mobile Money</th>
                             <th>Balance</th>
+                            <th>Expenses</th>
+                            <th>After Expenses</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -831,6 +841,8 @@
                                 <td><%= (month.visa_sales || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                                 <td><%= (month.mobile_sales || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                                 <td><%= (month.total_balance || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
+                                <td style="color: #dc3545; font-weight: 600;"><%= (month.monthly_expenses || 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
+                                <td style="color: #28a745; font-weight: 600;"><%= ((month.total_sales || 0) - (month.monthly_expenses || 0)).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) %></td>
                             </tr>
                         <% }) %>
                     </tbody>

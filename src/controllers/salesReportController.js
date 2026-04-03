@@ -68,6 +68,17 @@ async function getWeeklyReport(req, res, next) {
         const weeklyExpenses = await ExpensesModel.getExpensesByDateRange(startDate, endDate);
         const totalWeeklyExpenses = weeklyExpenses.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
 
+        // Add daily expenses to each day in the breakdown
+        const dailyBreakdownWithExpenses = weeklySales.map(day => {
+            const dayExpenses = weeklyExpenses
+                .filter(exp => exp.date === day.sale_date)
+                .reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+            return {
+                ...day,
+                daily_expenses: dayExpenses
+            };
+        });
+
         // Calculate net sales
         const beforeExpenses = weeklyTotals.total_sales || 0;
         const afterExpenses = beforeExpenses - totalWeeklyExpenses;
@@ -78,7 +89,7 @@ async function getWeeklyReport(req, res, next) {
             startDate: startDate,
             endDate: endDate,
             sales: weeklyTotals,
-            dailyBreakdown: weeklySales,
+            dailyBreakdown: dailyBreakdownWithExpenses,
             totalExpenses: totalWeeklyExpenses,
             beforeExpenses: beforeExpenses,
             afterExpenses: afterExpenses,
@@ -108,6 +119,17 @@ async function getMonthlyReport(req, res, next) {
         const monthlyExpenses = await ExpensesModel.getExpensesByDateRange(startDate, endDate);
         const totalMonthlyExpenses = monthlyExpenses.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
 
+        // Add daily expenses to each day in the breakdown
+        const dailyBreakdownWithExpenses = monthlySales.map(day => {
+            const dayExpenses = monthlyExpenses
+                .filter(exp => exp.date === day.sale_date)
+                .reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+            return {
+                ...day,
+                daily_expenses: dayExpenses
+            };
+        });
+
         // Calculate net sales
         const beforeExpenses = monthlyTotals.total_sales || 0;
         const afterExpenses = beforeExpenses - totalMonthlyExpenses;
@@ -135,7 +157,7 @@ async function getMonthlyReport(req, res, next) {
             selectedMonth: selectedMonth,
             months: months,
             sales: monthlyTotals,
-            dailyBreakdown: monthlySales,
+            dailyBreakdown: dailyBreakdownWithExpenses,
             totalExpenses: totalMonthlyExpenses,
             beforeExpenses: beforeExpenses,
             afterExpenses: afterExpenses,
@@ -165,6 +187,18 @@ async function getAnnualReport(req, res, next) {
         );
         const totalAnnualExpenses = annualExpenses.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
 
+        // Add monthly expenses to each month in the breakdown
+        const monthlyBreakdownWithExpenses = annualSales.map(month => {
+            const monthNumber = String(month.month).padStart(2, '0');
+            const monthExpenses = annualExpenses
+                .filter(exp => exp.date.startsWith(`${selectedYear}-${monthNumber}`))
+                .reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+            return {
+                ...month,
+                monthly_expenses: monthExpenses
+            };
+        });
+
         // Calculate net sales
         const beforeExpenses = annualTotals.total_sales || 0;
         const afterExpenses = beforeExpenses - totalAnnualExpenses;
@@ -174,7 +208,7 @@ async function getAnnualReport(req, res, next) {
             reportType: "annual",
             selectedYear: selectedYear,
             sales: annualTotals,
-            monthlyBreakdown: annualSales,
+            monthlyBreakdown: monthlyBreakdownWithExpenses,
             totalExpenses: totalAnnualExpenses,
             beforeExpenses: beforeExpenses,
             afterExpenses: afterExpenses,
