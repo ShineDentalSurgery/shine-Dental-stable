@@ -1,0 +1,317 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .header h1 {
+        font-size: 28px;
+        color: #333;
+    }
+
+    .btn-new {
+        background: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .btn-new:hover {
+        background: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+
+    .search-bar {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        display: flex;
+        gap: 10px;
+    }
+
+    .search-bar input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .search-bar input:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+    .search-bar button {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    .search-bar button:hover {
+        background: #0056b3;
+    }
+
+    .notes-table {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }
+
+    .notes-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .notes-table th {
+        background: #f8f9fa;
+        padding: 15px;
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+        border-bottom: 2px solid #ddd;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #666;
+    }
+
+    .notes-table td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        color: #555;
+        font-size: 14px;
+    }
+
+    .notes-table tr:hover {
+        background: #f8f9fa;
+    }
+
+    .notes-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .patient-info {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .patient-id {
+        font-family: monospace;
+        background: #f0f0f0;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 12px;
+        color: #007bff;
+    }
+
+    .date-cell {
+        font-family: monospace;
+    }
+
+    .action-btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        transition: all 0.3s;
+        margin-right: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-view {
+        background: #007bff;
+        color: white;
+    }
+
+    .btn-view:hover {
+        background: #0056b3;
+    }
+
+    .btn-delete {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background: #c82333;
+    }
+
+    .empty-state {
+        background: white;
+        padding: 60px 20px;
+        text-align: center;
+        border-radius: 8px;
+        color: #666;
+    }
+
+    .empty-state h3 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .empty-state p {
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .notes-table {
+            overflow-x: auto;
+        }
+
+        .notes-table th,
+        .notes-table td {
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .action-btn {
+            display: block;
+            margin-bottom: 5px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1>Treatment Notes</h1>
+        <a href="/treatment/form" class="btn-new">+ New Treatment Note</a>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by patient name or ID..." onkeyup="filterTable()">
+        <button onclick="clearSearch()">Clear</button>
+    </div>
+
+    <% if (notes && notes.length > 0) { %>
+        <div class="notes-table">
+            <table id="notesTable">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Patient Name</th>
+                        <th>Phone</th>
+                        <th>Treatment Date</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% notes.forEach(note => { %>
+                        <tr>
+                            <td><span class="patient-id"><%= note.patient_id %></span></td>
+                            <td><span class="patient-info"><%= note.patient_name %></span></td>
+                            <td><%= note.patient_phone || 'N/A' %></td>
+                            <td><span class="date-cell"><%= new Date(note.treatment_date).toLocaleDateString() %></span></td>
+                            <td><%= note.age || 'N/A' %></td>
+                            <td><%= note.gender || 'N/A' %></td>
+                            <td>
+                                <a href="/treatment/<%= note.id %>" class="action-btn btn-view">View</a>
+                                <button class="action-btn btn-delete" onclick="deleteNote(<%= note.id %>)">Delete</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="empty-state">
+            <h3>No Treatment Notes Found</h3>
+            <p>Start by creating a new treatment note for a patient.</p>
+            <a href="/treatment/form" class="btn-new">+ Create First Treatment Note</a>
+        </div>
+    <% } %>
+</div>
+
+<script>
+    function filterTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('notesTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            const patientId = cells[0].textContent.toUpperCase();
+            const patientName = cells[1].textContent.toUpperCase();
+
+            if (patientId.indexOf(filter) > -1 || patientName.indexOf(filter) > -1) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        filterTable();
+    }
+
+    function deleteNote(noteId) {
+        if (confirm('Are you sure you want to delete this treatment note?')) {
+            fetch(`/treatment/${noteId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Treatment note deleted successfully');
+                    location.reload();
+                } else {
+                    alert('Error deleting treatment note');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting treatment note');
+            });
+        }
+    }
+</script>

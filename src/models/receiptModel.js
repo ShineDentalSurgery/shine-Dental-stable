@@ -45,6 +45,61 @@ async function getExistingPatientByName(db, patient_name) {
     }
 }
 
+// Validate and reformat patient ID to standard format: sds-YY-MM-NNN
+async function validateAndFormatPatientId(db, patientId, createdDate = null) {
+    try {
+        // Check if already in correct format: sds-YY-MM-NNN
+        const correctFormat = /^sds-\d{2}-\d{2}-\d{3}$/;
+        if (correctFormat.test(patientId)) {
+            return patientId;
+        }
+
+        // If not in correct format, try to reformat
+        logger.info(`Patient ID not in standard format: ${patientId}. Attempting to reformat.`);
+
+        // Use provided date or current date
+        const dateToUse = createdDate ? new Date(createdDate) : new Date();
+        const year = String(dateToUse.getFullYear()).slice(-2);
+        const month = String(dateToUse.getMonth() + 1).padStart(2, '0');
+
+        // Try to extract sequence number from various formats
+        let sequence = 0;
+        
+        // Format: sds-26-02-3 (missing zero-padding)
+        const match1 = patientId.match(/sds-\d{2}-\d{2}-(\d+)$/);
+        if (match1) {
+            sequence = parseInt(match1[1]);
+        }
+        
+        // Format: sds-2026-02-3 (4-digit year)
+        const match2 = patientId.match(/sds-\d{4}-\d{2}-(\d+)$/);
+        if (match2) {
+            sequence = parseInt(match2[1]);
+        }
+        
+        // Format: just a number
+        if (!sequence && /^\d+$/.test(patientId)) {
+            sequence = parseInt(patientId);
+        }
+
+        // If we found a sequence, use it; otherwise generate new one
+        if (sequence > 0) {
+            const formattedSequence = String(sequence).padStart(3, '0');
+            const reformattedId = `sds-${year}-${month}-${formattedSequence}`;
+            logger.info(`Reformatted patient ID from ${patientId} to ${reformattedId}`);
+            return reformattedId;
+        }
+
+        // If we couldn't extract a sequence, generate a new one
+        logger.warn(`Could not reformat patient ID: ${patientId}. Generating new ID.`);
+        return await generatePatientId(db);
+
+    } catch (error) {
+        logger.error(`Error validating/formatting patient ID: ${error.message}`, error);
+        return await generatePatientId(db);
+    }
+}
+
 // Generate unique patient ID in format: sds-YY-MM-NNN
 async function generatePatientId(db) {
     try {
@@ -83,10 +138,10 @@ async function createReceipt(patient_name, patient_phone, patient_address, patie
     try {
         let patientId;
         
-        // If a specific patient_id was provided, use it
+        // If a specific patient_id was provided, validate and reformat it
         if (options.usePatientId) {
-            patientId = options.usePatientId;
-            logger.info(`Using provided patient ID: ${patientId}`);
+            patientId = await validateAndFormatPatientId(db, options.usePatientId);
+            logger.info(`Using provided patient ID (validated): ${patientId}`);
         }
         // If forceNewId is true, skip phone check and always generate new ID
         else if (options.forceNewId) {
@@ -102,7 +157,9 @@ async function createReceipt(patient_name, patient_phone, patient_address, patie
                 patientId = await generatePatientId(db);
                 logger.info(`New patient assigned ID: ${patientId}`);
             } else {
-                logger.info(`Existing patient found by phone - reusing ID: ${patientId}`);
+                // Validate and reformat existing patient ID if needed
+                patientId = await validateAndFormatPatientId(db, patientId);
+                logger.info(`Existing patient found by phone - using ID: ${patientId}`);
             }
         }
         
@@ -244,4 +301,4 @@ async function getPatientDetails(patient_phone) {
     }
 }
 
-module.exports = { createReceipt, getReceiptDetails, getReceipts, deleteReceipt, updateReceipt, getReceiptsByPatient, getPatientDetails, generatePatientId, getExistingPatientByName };
+module.exports = { createReceipt, getReceiptDetails, getReceipts, deleteReceipt, updateReceipt, getReceiptsByPatient, getPatientDetails, generatePatientId, getExistingPatientByName, validateAndFormatPatientId };

@@ -10,6 +10,7 @@ const authenticateToken = require('./src/middleware/authMiddleware');
 const receiptRoutes = require("./src/routes/receiptRoutes");
 const invoiceRoutes = require("./src/routes/invoiceRoutes");
 const appointmentRoutes = require("./src/routes/appointmentRoutes");
+const treatmentRoutes = require("./src/routes/treatmentRoutes");
 const baseController = require("./src/controllers/baseController");
 const dbold = require("./src/routes/databaseOld-route");
 const flash = require("connect-flash");
@@ -87,6 +88,9 @@ app.use("/sales-report", salesReportRoutes);
 
 // Appointments routes
 app.use("/appointments", appointmentRoutes);
+
+// Treatment Notes routes
+app.use("/treatment", treatmentRoutes);
 
 // login routes
 app.use("/account", accountRoutes);

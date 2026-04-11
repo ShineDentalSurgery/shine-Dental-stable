@@ -247,6 +247,17 @@ input,select,button{
     <p id="displayPatientPhone"></p>
 </div>
 
+<!-- Patient ID Lookup Section -->
+<div style="background: #fff3cd; padding: 15px; border-radius: 4px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+    <label style="margin: 0 0 10px 0; display: block; font-weight: bold; color: #333;">Lookup Existing Patient by ID</label>
+    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+        <input type="text" id="lookupPatientId" placeholder="e.g., sds-26-02-001 or old format" style="flex: 1;">
+        <button type="button" onclick="lookupPatientId()" style="width: auto; padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Lookup</button>
+    </div>
+    <small style="color: #666;">Enter patient ID to look up and reuse patient information. Old format IDs will be automatically reformatted.</small>
+    <div id="lookupResult" style="display: none; margin-top: 10px; padding: 10px; background: white; border-radius: 4px;"></div>
+</div>
+
 <div id="patientFieldsContainer">
     <label>Patient Name</label>
     <input type="text" name="patient_name" required>
@@ -484,6 +495,21 @@ function closePatientModal() {
 
 function useExistingPatient() {
     if (currentPatient && currentPatient.patient_id) {
+        // Populate form fields with patient data
+        document.querySelector('input[name="patient_name"]').value = currentPatient.patient_name || '';
+        document.querySelector('input[name="patient_phone"]').value = currentPatient.patient_phone || '';
+        document.querySelector('input[name="patient_address"]').value = currentPatient.patient_address || '';
+        document.querySelector('select[name="patient_gender"]').value = currentPatient.gender || '';
+        document.querySelector('input[name="patient_age"]').value = currentPatient.age || '';
+        
+        // Hide patient input fields and show info display
+        document.getElementById('patientFieldsContainer').style.display = 'none';
+        document.getElementById('patientInfoDisplay').style.display = 'block';
+        document.getElementById('displayPatientName').textContent = 'Patient: ' + currentPatient.patient_name;
+        document.getElementById('displayPatientPhone').textContent = 'Phone: ' + currentPatient.patient_phone;
+        document.getElementById('pageTitle').textContent = 'Add Receipt to Existing Patient';
+        
+        // Set the hidden fields
         document.getElementById('use_patient_id').value = currentPatient.patient_id;
         console.log('Using existing patient ID:', currentPatient.patient_id);
         closePatientModal();
@@ -521,6 +547,82 @@ document.addEventListener('DOMContentLoaded', function() {
     if (newBtn) newBtn.addEventListener('click', createNewPatient);
     if (closeBtn) closeBtn.addEventListener('click', closePatientModal);
 });
+
+// Lookup patient by ID and validate/reformat
+async function lookupPatientId() {
+    const patientId = document.getElementById('lookupPatientId').value.trim();
+    
+    if (!patientId) {
+        showLookupResult('Please enter a patient ID', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch('/receipt/validate-id', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ patient_id: patientId })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            if (data.exists && data.patientData) {
+                // Patient found
+                const formattedId = data.formattedId;
+                showLookupResult(
+                    `✓ Found Patient: ${data.patientData.patient_name}<br/>Phone: ${data.patientData.patient_phone}<br/>Formatted ID: <strong>${formattedId}</strong>`,
+                    'success'
+                );
+                
+                // Auto-use this patient
+                setTimeout(() => {
+                    document.getElementById('use_patient_id').value = formattedId;
+                    document.querySelector('input[name="patient_name"]').value = data.patientData.patient_name;
+                    document.querySelector('input[name="patient_phone"]').value = data.patientData.patient_phone;
+                    
+                    // Hide patient fields and show info
+                    document.getElementById('patientFieldsContainer').style.display = 'none';
+                    document.getElementById('patientInfoDisplay').style.display = 'block';
+                    document.getElementById('displayPatientName').textContent = 'Patient: ' + data.patientData.patient_name;
+                    document.getElementById('displayPatientPhone').textContent = 'Phone: ' + data.patientData.patient_phone;
+                    document.getElementById('pageTitle').textContent = 'Add Receipt to Existing Patient';
+                    
+                    // Scroll to form
+                    document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+            } else {
+                // Patient ID formatted but not found
+                showLookupResult(
+                    `ID Reformatted: <strong>${data.formattedId}</strong><br/>No existing patient found. This will be a new patient.`,
+                    'info'
+                );
+            }
+        } else {
+            showLookupResult(data.message || 'Error validating patient ID', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showLookupResult('Error looking up patient ID. Please try again.', 'error');
+    }
+}
+
+function showLookupResult(message, type) {
+    const resultDiv = document.getElementById('lookupResult');
+    resultDiv.innerHTML = message;
+    resultDiv.style.display = 'block';
+    resultDiv.style.borderLeft = type === 'success' ? '4px solid #28a745' : 
+                                   type === 'error' ? '4px solid #dc3545' : 
+                                   '4px solid #17a2b8';
+    resultDiv.style.backgroundColor = type === 'success' ? '#d4edda' : 
+                                        type === 'error' ? '#f8d7da' : 
+                                        '#d1ecf1';
+    resultDiv.style.color = type === 'success' ? '#155724' : 
+                            type === 'error' ? '#721c24' : 
+                            '#0c5460';
+}
 
 window.onload = function(){
 
