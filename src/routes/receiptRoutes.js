@@ -6,6 +6,7 @@ const adminMiddleware = require("../middleware/adminMiddleware");
 
 router.post("/create", authenticateToken, receiptController.addReceipt);
 router.post("/check-name", authenticateToken, receiptController.checkDuplicateName);
+router.post("/validate-id", authenticateToken, receiptController.validatePatientId);
 router.post("/edit/:receipt_id", authenticateToken, adminMiddleware, receiptController.updateReceipt)
 router.get("/", authenticateToken, receiptController.getAllReceipts);
 router.get("/search/old-patients/search", authenticateToken, receiptController.searchOldPatients);

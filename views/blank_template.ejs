@@ -1,31 +1,89 @@
 <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    /* Screen preview */
+    .blank-cont {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        height: 800px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
     .company-header img {
         width: 100%;
         max-width: 840px;
+        display: block;
+        margin: 0 auto;
     }
 
     .btn-print {
         text-align: center;
-        align-items: center;
+        margin-top: 25px;
     }
 
-    body{
-        align-items: center;
-        margin-top: 0;
+    .btn-print button {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    /* 🖨️ PRINT FIXES */
+    @media print {
+
+        @page {
+            margin: 0;
+            /* removes browser default margins */
+        }
+
+        html,
+        body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+    .blank-cont {
+        all: unset;        /* removes ALL applied styles */
+        display: block;    /* restore normal flow */
+        width: 100%;
+    }
+
+        .company-header {
+            width: 100%;
+            text-align: center;
+        }
+
+        .company-header img {
+            display: block;
+            margin: 0 auto;
+            /* centers image */
+            width: 100%;
+            max-width: 840px;
+        }
     }
 </style>
 
 <body>
-            <div class="company-header">
 
+    <div class="blank-cont">
+        <div class="company-header">
             <img src="/images/reciept_logo.png" alt="Receipt Logo">
-
-
         </div>
+    </div>
 
-
-
-
-    <button class="btn-print" onclick="window.print()">Print</button>
+    <div class="btn-print">
+        <button onclick="window.print()">Print</button>
+    </div>
 
 </body>

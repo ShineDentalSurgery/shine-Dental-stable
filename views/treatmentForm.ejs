@@ -1,0 +1,425 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 20px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #007bff;
+    }
+
+    .header h1 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .header p {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .form-section {
+        margin-bottom: 25px;
+    }
+
+    .form-section h3 {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    .patient-id-display {
+        background: #e7f3ff;
+        border: 2px solid #007bff;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .patient-id-display strong {
+        font-size: 18px;
+        color: #007bff;
+        font-family: 'Courier New', monospace;
+    }
+
+    .patient-id-display p {
+        margin: 5px 0 0 0;
+        color: #666;
+        font-size: 12px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
+        transition: all 0.3s;
+        min-width: 120px;
+    }
+
+    .btn-print {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-print:hover {
+        background: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-cancel {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-cancel:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+    }
+
+    .status-message {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        display: none;
+    }
+
+    .status-message.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        display: block;
+    }
+
+    .status-message.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        display: block;
+    }
+
+    .info-banner {
+        background: #d1ecf1;
+        border-left: 4px solid #17a2b8;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        color: #0c5460;
+    }
+
+    .info-banner strong {
+        color: #17a2b8;
+    }
+
+    .info-box {
+        background: #e7f3ff;
+        border-left: 4px solid #007bff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
+
+    .info-box p {
+        margin: 5px 0;
+        color: #333;
+    }
+
+    .info-box strong {
+        color: #007bff;
+    }
+
+    @media print {
+        body {
+            background: white;
+        }
+
+        .container {
+            box-shadow: none;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .button-group {
+            display: none;
+        }
+
+        .status-message {
+            display: none;
+        }
+
+        .info-banner {
+            display: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1>Treatment Form (Print Version)</h1>
+        <p>Fill in patient details and print this form for treatment notes (notes will be hand-written)</p>
+    </div>
+
+    <div class="info-banner">
+        <strong>ℹ️ This form is for printing only.</strong> Fill in the patient details and click "Create Treatment Form" to generate a printable form with space for hand-written treatment notes.
+    </div>
+
+    <div id="statusMessage" class="status-message"></div>
+
+    <% if (patientData) { %>
+        <div class="info-box">
+            <p><strong>Existing Patient:</strong> <span id="patientNameDisplay"><%= patientData.patient_name %></span></p>
+            <p><strong>Phone:</strong> <span id="patientPhoneDisplay"><%= patientData.patient_phone %></span></p>
+        </div>
+    <% } %>
+
+    <form id="treatmentForm">
+        <!-- Patient ID Section -->
+        <div class="form-section">
+            <h3>Patient Identification</h3>
+            
+            <div class="patient-id-display">
+                <p style="margin: 0 0 10px 0; color: #666; font-size: 12px; text-transform: uppercase;">Auto-Generated Patient ID</p>
+                <strong id="patientIdDisplay">Generating...</strong>
+                <p>This will be auto-generated when you proceed</p>
+            </div>
+            
+            <input type="hidden" id="patientId" name="patient_id">
+        </div>
+
+        <!-- Patient Information Section -->
+        <div class="form-section">
+            <h3>Patient Information</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="patientName">Patient's Name *</label>
+                    <input type="text" id="patientName" name="patient_name" placeholder="Enter patient name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="patientPhone">Tel / WhatsApp *</label>
+                    <input type="tel" id="patientPhone" name="patient_phone" placeholder="+2567XXXXXXXX" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="patientAddress">Address</label>
+                    <input type="text" id="patientAddress" name="patient_address" placeholder="Enter address">
+                </div>
+
+                <div class="form-group">
+                    <label for="patientAge">Age</label>
+                    <input type="number" id="patientAge" name="age" min="0" max="150" placeholder="Enter age">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="patientGender">Sex</label>
+                    <select id="patientGender" name="gender">
+                        <option value="">-- Optional --</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="treatmentDate">Treatment Date *</label>
+                    <input type="date" id="treatmentDate" name="treatment_date" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+            <button type="button" class="btn btn-print" onclick="generateTreatmentForm()">Create Treatment Form</button>
+            <button type="button" class="btn btn-cancel" onclick="history.back()">✕ Cancel</button>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const patientNameInput = document.getElementById('patientName');
+    const patientPhoneInput = document.getElementById('patientPhone');
+    const treatmentDateInput = document.getElementById('treatmentDate');
+
+    // Set today's date as default
+    const today = new Date().toISOString().split('T')[0];
+    treatmentDateInput.value = today;
+
+    <% if (patientData) { %>
+        // Pre-fill form with patient data
+        patientNameInput.value = '<%= patientData.patient_name %>';
+        patientPhoneInput.value = '<%= patientData.patient_phone %>';
+        document.getElementById('patientAddress').value = '<%= patientData.patient_address || '' %>';
+        document.getElementById('patientAge').value = '<%= patientData.age || '' %>';
+        document.getElementById('patientGender').value = '<%= patientData.gender || '' %>';
+        
+        // Pre-fill patient ID
+        document.getElementById('patientId').value = '<%= patientData.patient_id %>';
+        document.getElementById('patientIdDisplay').textContent = '<%= patientData.patient_id %>';
+    <% } %>
+
+    // Generate patient ID when name and phone are filled
+    patientNameInput.addEventListener('change', generatePatientId);
+    patientPhoneInput.addEventListener('change', generatePatientId);
+
+    async function generatePatientId() {
+        const patientName = patientNameInput.value.trim();
+        const patientPhone = patientPhoneInput.value.trim();
+
+        if (!patientName || !patientPhone) {
+            document.getElementById('patientIdDisplay').textContent = 'Fill in name and phone...';
+            return;
+        }
+
+        try {
+            const response = await fetch('/receipt/check-name', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ patient_name: patientName })
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.exists && data.patients.length > 0) {
+                // Existing patient - use their ID
+                const existingId = data.patients[0].patient_id;
+                document.getElementById('patientId').value = existingId;
+                document.getElementById('patientIdDisplay').textContent = existingId;
+                document.getElementById('patientIdDisplay').style.color = '#28a745';
+            } else {
+                // New patient - generate ID (will be generated on print)
+                document.getElementById('patientIdDisplay').textContent = 'Will be generated on print';
+                document.getElementById('patientIdDisplay').style.color = '#ffc107';
+                document.getElementById('patientId').value = '';
+            }
+        } catch (error) {
+            console.error('Error checking patient:', error);
+        }
+    }
+});
+
+function generateTreatmentForm() {
+    const patientName = document.getElementById('patientName').value.trim();
+    const patientPhone = document.getElementById('patientPhone').value.trim();
+    const patientAddress = document.getElementById('patientAddress').value.trim();
+    const patientAge = document.getElementById('patientAge').value;
+    const patientGender = document.getElementById('patientGender').value;
+    const treatmentDate = document.getElementById('treatmentDate').value;
+
+    if (!patientName || !patientPhone || !treatmentDate) {
+        alert('Please fill in patient name, phone, and treatment date');
+        return;
+    }
+
+    // Build query string with all patient data
+    const params = new URLSearchParams({
+        patient_name: patientName,
+        patient_phone: patientPhone,
+        patient_address: patientAddress,
+        gender: patientGender,
+        age: patientAge,
+        patient_id: document.getElementById('patientId').value,
+        treatment_date: treatmentDate
+    });
+
+    // Navigate to print view
+    window.location.href = '/treatment/print?' + params.toString();
+}
+
+</script>

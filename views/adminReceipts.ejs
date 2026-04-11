@@ -14,9 +14,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
             padding: 20px;
         }
 
@@ -24,70 +23,61 @@
             max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
+            padding: 20px;
         }
 
         .admin-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
             gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .admin-header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 24px;
+            color: #333;
         }
 
-        .admin-header h1 i {
-            font-size: 32px;
+        .btn-create {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-create:hover {
+            background: #45a049;
         }
 
         .search-box {
             flex: 1;
             min-width: 250px;
-            max-width: 400px;
         }
 
         .search-box input {
             width: 100%;
-            padding: 10px 15px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .search-box input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .admin-content {
-            padding: 30px;
+            padding: 0;
         }
 
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
+            border: 1px solid #ddd;
         }
 
         table {
@@ -97,166 +87,122 @@
         }
 
         thead {
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
+            background: #f0f0f0;
         }
 
         th {
-            padding: 16px;
+            padding: 12px;
             text-align: left;
-            font-weight: 600;
-            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
             font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: #f8f9fa;
         }
 
         td {
-            padding: 14px 16px;
-            border-bottom: 1px solid #f1f3f5;
-            color: #666;
-            font-size: 14px;
-        }
-
-        tbody tr {
-            transition: all 0.2s ease;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 13px;
         }
 
         tbody tr:hover {
-            background-color: #f8f9fa;
-            transform: scale(1.01);
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #fafbfc;
-        }
-
-        tbody tr:nth-child(even):hover {
-            background-color: #f0f2f5;
+            background: #f9f9f9;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 3px;
             font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: #e0e0e0;
+            color: #333;
         }
 
         .badge-cash {
-            background: #d4f4dd;
-            color: #155724;
+            background: #e8f5e9;
+            color: #2e7d32;
         }
 
         .badge-mobile {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: #e3f2fd;
+            color: #1565c0;
         }
 
         .amount {
-            font-weight: 600;
+            font-weight: normal;
             color: #333;
         }
 
         .amount.negative {
-            color: #dc3545;
+            color: #d32f2f;
         }
 
         .amount.positive {
-            color: #28a745;
+            color: #388e3c;
         }
 
         .action-buttons {
             display: flex;
             gap: 8px;
-            align-items: center;
         }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
+            display: inline-block;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-size: 12px;
             text-decoration: none;
+            border-radius: 3px;
         }
 
         .btn-delete {
-            background: #ffe5e5;
-            color: #dc3545;
+            background: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
         }
 
         .btn-delete:hover {
-            background: #dc3545;
+            background: #d32f2f;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
         }
 
         .btn-edit {
-            background: #e7f3ff;
-            color: #007bff;
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #1976d2;
         }
 
         .btn-edit:hover {
-            background: #007bff;
+            background: #1976d2;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .btn-view {
+            background: #2196F3;
             color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+            border: 1px solid #2196F3;
         }
 
-        .stat-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.9;
-            margin-bottom: 8px;
+        .btn-view:hover {
+            background: #0b7dda;
+            color: white;
         }
 
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            padding: 0 !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .no-data {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px;
             color: #999;
-        }
-
-        .no-data i {
-            font-size: 48px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .no-data p {
-            font-size: 16px;
         }
 
         @media (max-width: 768px) {
@@ -265,33 +211,25 @@
                 align-items: stretch;
             }
 
-            .search-box {
-                max-width: 100%;
-            }
-
             th, td {
-                padding: 10px 8px;
+                padding: 8px;
                 font-size: 12px;
             }
 
             .btn {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-
-            table {
-                font-size: 12px;
+                padding: 4px 8px;
+                font-size: 11px;
             }
         }
     </style>
 </head>
-<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 0; margin: 0;">
+<body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1>
-                <i class="fas fa-receipt"></i>
-                Admin Receipts
-            </h1>
+            <h1>Admin Receipts</h1>
+            <a href="/receipt" class="btn-create">
+                <i class="fas fa-plus"></i> Create Receipt
+            </a>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search by patient name, phone, or ID...">
             </div>
@@ -299,62 +237,45 @@
 
         <div class="admin-content">
             <% if (receipts && receipts.length > 0) { %>
-                <div class="stats">
-                    <div class="stat-card">
-                        <div class="stat-label">Total Receipts</div>
-                        <div class="stat-value"><%= receipts.length %></div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Total Amount</div>
-                        <div class="stat-value">UGX <%= receipts.reduce((sum, r) => sum + (parseFloat(r.total) || 0), 0).toLocaleString('en-US') %></div>
-                    </div>
-                </div>
-
                 <div class="table-wrapper">
                     <table id="receiptsTable">
                         <thead>
                             <tr>
-                                <th><i class="fas fa-hashtag"></i> Receipt ID</th>
-                                <th><i class="fas fa-calendar"></i> Date</th>
-                                <th><i class="fas fa-user"></i> Patient Name</th>
-                                <th><i class="fas fa-phone"></i> Phone</th>
-                                <th><i class="fas fa-stethoscope"></i> Services</th>
-                                <th><i class="fas fa-money-bill"></i> Total</th>
-                                <th><i class="fas fa-wallet"></i> Mode</th>
-                                <th><i class="fas fa-credit-card"></i> Paid</th>
-                                <th><i class="fas fa-balance-scale"></i> Balance</th>
-                                <th><i class="fas fa-cog"></i> Actions</th>
+                                <th>Receipt ID</th>
+                                <th>Date</th>
+                                <th>Patient Name</th>
+                                <th>Phone</th>
+                                <th>Services</th>
+                                <th>Total</th>
+                                <th>Mode</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% receipts.forEach(receipt => { %>
-                                <tr class="receipt-row">
-                                    <td><strong>#<%= receipt.id %></strong></td>
+                                <tr>
+                                    <td>#<%= receipt.id %></td>
                                     <td><%= new Date(receipt.created_at).toLocaleDateString('en-GB') %></td>
-                                    <td><strong><%= receipt.patient_name %></strong></td>
-                                    <td>Tel: <%= formatPhone(receipt.patient_phone) %></td>
-                                    <td><small><%= formatService(receipt.service) %></small></td>
-                                    <td class="amount">UGX <%= Number(receipt.total).toLocaleString('en-US') %></td>
+                                    <td><%= receipt.patient_name %></td>
+                                    <td><%= formatPhone(receipt.patient_phone) %></td>
+                                    <td><%= formatService(receipt.service) %></td>
+                                    <td>UGX <%= Number(receipt.total).toLocaleString('en-US') %></td>
                                     <td>
                                         <span class="badge <%= receipt.mode_of_payment === 'cash' ? 'badge-cash' : 'badge-mobile' %>">
-                                            <i class="fas <%= receipt.mode_of_payment === 'cash' ? 'fa-coins' : 'fa-mobile-alt' %>"></i>
                                             <%= receipt.mode_of_payment %>
                                         </span>
                                     </td>
-                                    <td class="amount"><%= Number(receipt.amount_paid).toLocaleString('en-US') %></td>
-                                    <td class="amount <%= Number(receipt.balance) > 0 ? 'negative' : 'positive' %>">
+                                    <td><%= Number(receipt.amount_paid).toLocaleString('en-US') %></td>
+                                    <td class="<%= Number(receipt.balance) > 0 ? 'amount negative' : 'amount positive' %>">
                                         <%= Number(receipt.balance).toLocaleString('en-US') %>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <a href="/receipts/edit/<%= receipt.id %>" class="btn btn-edit">
-                                                <i class="fas fa-edit"></i>
-                                                Edit
-                                            </a>
-                                            <button class="btn btn-delete" onclick="deleteReceipt('<%= receipt.id %>')">
-                                                <i class="fas fa-trash"></i>
-                                                Delete
-                                            </button>
+                                            <a href="/receipts/<%= receipt.id %>" class="btn btn-view btn-icon" title="View"><i class="fas fa-eye"></i></a>
+                                            <a href="/receipts/edit/<%= receipt.id %>" class="btn btn-edit btn-icon" title="Edit"><i class="fas fa-edit"></i></a>
+                                            <button class="btn btn-delete btn-icon" onclick="deleteReceipt('<%= receipt.id %>')" title="Delete"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -435,26 +356,18 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #333;
             color: white;
             border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
+            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
             cursor: pointer;
             z-index: 1000;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            transition: all 0.3s ease;
         }
 
         #scrollToBottomBtn:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-            transform: scale(1.15);
-        }
-
-        #scrollToBottomBtn:active {
-            transform: scale(0.95);
+            background: #555;
         }
     </style>

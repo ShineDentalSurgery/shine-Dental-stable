@@ -143,3 +143,14 @@ baseController.buildBlank = async function (req, res, next) {
         next(error);
     }
 }
+baseController.buildTreatmentNote = async function (req, res, next) {
+    try {
+        return res.render('treatment_note', {
+            title: 'Treatment Note',
+            user: req.user
+        });
+    } catch (error) {
+        logger.error(`Error in buildBlank: ${error.message}`, error);
+        next(error);
+    }
+}

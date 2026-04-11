@@ -363,7 +363,56 @@ async function checkDuplicateName(req, res) {
     }
 }
 
-module.exports = { addReceipt, getAllReceipts, receiptDetails, deleteReciept, updateReceipt, viewPatientRecords, viewSpecificPatientRecords, searchOldPatients, checkDuplicateName };
+// Validate and reformat patient ID
+async function validatePatientId(req, res) {
+    try {
+        const { patient_id } = req.body;
+
+        if (!patient_id || !patient_id.trim()) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Patient ID is required" 
+            });
+        }
+
+        const db = require("../config/db")();
+        const connection = await db;
+        
+        const { validateAndFormatPatientId } = ReceiptItem;
+        const formattedId = await validateAndFormatPatientId(connection, patient_id.trim());
+        
+        await connection.end();
+
+        // Check if this patient ID exists
+        const db2 = require("../config/db")();
+        const connection2 = await db2;
+        const [existing] = await connection2.query(
+            `SELECT DISTINCT patient_id, patient_name, patient_phone FROM receipts WHERE patient_id = ? LIMIT 1`,
+            [formattedId]
+        );
+        await connection2.end();
+
+        const isCorrectFormat = /^sds-\d{2}-\d{2}-\d{3}$/.test(formattedId);
+
+        return res.json({
+            success: true,
+            message: isCorrectFormat ? "Patient ID is valid" : "Patient ID reformatted",
+            formattedId: formattedId,
+            isNewFormat: isCorrectFormat,
+            exists: existing && existing.length > 0,
+            patientData: existing && existing.length > 0 ? existing[0] : null
+        });
+
+    } catch (error) {
+        logger.error(`Error in validatePatientId: ${error.message}`, error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Error validating patient ID"
+        });
+    }
+}
+
+module.exports = { addReceipt, getAllReceipts, receiptDetails, deleteReciept, updateReceipt, viewPatientRecords, viewSpecificPatientRecords, searchOldPatients, checkDuplicateName, validatePatientId };
 
 async function viewSpecificPatientRecords(req, res) {
     try {

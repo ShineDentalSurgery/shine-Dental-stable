@@ -1,0 +1,110 @@
+<style>
+    body {
+        margin: 0;
+        padding-bottom: 60px;
+        font-family: Arial, sans-serif;
+        background: #f5f7fb; /* soft background */
+    }
+
+    /* Wrapper for preview */
+    .page-preview {
+        max-width: 600px;
+        height: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        position: relative;
+    }
+
+    .company-header img {
+        width: 100%;
+        max-width: 840px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Footer preview styling */
+    .footer {
+        margin-top: 30px;
+        position: absolute;
+        bottom: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #444;
+        border-top: 1px dashed #ccc;
+        padding-top: 10px;
+    }
+
+    /* Print button styling */
+    .btn-print {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .btn-print button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.3s ease;
+    }
+
+    .btn-print button:hover {
+        background: #1d4ed8;
+    }
+
+    /* PRINT SETTINGS (UNCHANGED LOGIC) */
+    @media print {
+        .btn-print {
+            display: none;
+        }
+
+        body {
+            padding-bottom: 40px;
+        }
+
+        .footer {
+            position: fixed;
+            padding: 10px;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            background: #fff;
+        }
+
+        .page-preview {
+            all: unset;
+            box-shadow: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+</style>
+
+<body>
+
+    <div class="page-preview">
+        <div class="company-header">
+            <img src="/images/treatment_note.png" alt="Treatment Note">
+        </div>
+
+        <div class="footer">
+            <p>
+                FOR: Teeth Filling, Crowns & Braces, Scaling & Polishing,
+                Teeth Whitening & Root Canal Therapy (RCT)
+            </p>
+        </div>
+    </div>
+
+    <div class="btn-print">
+        <button onclick="window.print()">Print</button>
+    </div>
+
+</body>
