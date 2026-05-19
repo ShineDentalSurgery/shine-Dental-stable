@@ -21,7 +21,8 @@ async function getExistingPatientId(db, patient_phone) {
 // Returns multiple matches if same name exists more than once
 async function getExistingPatientByName(db, patient_name) {
     try {
-        const [result] = await db.query(
+        const normalizedPatientName = patient_name.trim().toLowerCase();
+        const [exactMatch] = await db.query(
             `SELECT 
                 patient_id, 
                 patient_name, 
@@ -33,12 +34,37 @@ async function getExistingPatientByName(db, patient_name) {
                 MAX(created_at) as last_visit_date,
                 GROUP_CONCAT(DISTINCT service SEPARATOR ', ') as services
              FROM receipts 
-             WHERE patient_name = ? AND patient_id IS NOT NULL 
-             GROUP BY patient_id, patient_phone
+             WHERE LOWER(TRIM(patient_name)) = ?
+             GROUP BY patient_id, patient_phone, patient_name
              ORDER BY MAX(created_at) DESC`,
-            [patient_name]
+            [normalizedPatientName]
         );
-        return result.length > 0 ? result : null;
+
+        if (exactMatch.length > 0) {
+            return exactMatch;
+        }
+
+        logger.warn(`Exact patient name lookup failed for "${patient_name}"; trying fallback search.`);
+
+        const [fuzzyMatch] = await db.query(
+            `SELECT 
+                patient_id, 
+                patient_name, 
+                patient_phone, 
+                ANY_VALUE(patient_address) as patient_address,
+                ANY_VALUE(gender) as gender,
+                ANY_VALUE(age) as age,
+                COUNT(*) as receipt_count,
+                MAX(created_at) as last_visit_date,
+                GROUP_CONCAT(DISTINCT service SEPARATOR ', ') as services
+             FROM receipts 
+             WHERE LOWER(TRIM(patient_name)) LIKE CONCAT('%', ?, '%')
+             GROUP BY patient_id, patient_phone, patient_name
+             ORDER BY MAX(created_at) DESC`,
+            [normalizedPatientName]
+        );
+
+        return fuzzyMatch.length > 0 ? fuzzyMatch : null;
     } catch (error) {
         logger.error(`Error checking patient by name: ${error.message}`, error);
         return null;

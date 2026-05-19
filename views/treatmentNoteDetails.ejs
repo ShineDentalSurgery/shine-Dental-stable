@@ -70,8 +70,8 @@
         display: flex;
         align-items: flex-end;
         gap: 6px;
-        margin-top: 10px;
-        line-height: 0.8;
+        line-height: 0.5;
+        padding: 1px;
     }
 
     .field-label {
@@ -108,9 +108,18 @@
             margin: 0;
         }
 
+        .field-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            line-height: 0.5;
+            padding: 1px;
+        }
+
         .receipt {
             height: 750px;
             width: 100%;
+            font-size: 15px;
             margin-top: 0;
             margin-bottom: 0;
             background-image: url('/images/shinedental-water_mark.png');
@@ -140,68 +149,85 @@
                 </div>
             </div>
 
-            <!-- Date -->
-            <div class="date-wrapper">
-                <div class="field-row" style="justify-content: flex-end;">
-                    <strong class="field-label">DATE:</strong>
-                    <div class="field-dotted" style="max-width: 160px;">
-                        <span><%= new Date(note.treatment_date).toLocaleDateString('en-GB') %></span>
+            <div class="spacing" style="line-height: .6;">
+
+
+
+                <!-- Date -->
+                <div class="date-wrapper">
+                    <div class="field-row" style="justify-content: flex-end;">
+                        <strong class="field-label">DATE:</strong>
+                        <div class="field-dotted" style="max-width: 160px;">
+                            <span>
+                                <%= new Date(note.treatment_date).toLocaleDateString('en-GB') %>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Patient Name -->
-            <div class="field-row">
-                <strong class="field-label">PATIENT'S NAME:</strong>
-                <div class="field-dotted">
-                    <span><%= note.patient_name %></span>
-                </div>
-            </div>
-
-            <!-- Age, Sex, Address Row -->
-            <div class="form-row">
-                <div class="field-row" style="flex: 1;">
-                    <strong class="field-label">AGE:</strong>
+                <!-- Patient Name -->
+                <div class="field-row">
+                    <strong class="field-label">PATIENT'S NAME:</strong>
                     <div class="field-dotted">
-                        <span><%= note.age || 'N/A' %></span>
+                        <span>
+                            <%= note.patient_name %>
+                        </span>
                     </div>
                 </div>
-                <div class="field-row" style="flex: 1;">
-                    <strong class="field-label">SEX:</strong>
-                    <div class="field-dotted">
-                        <span><%= note.gender || 'N/A' %></span>
-                    </div>
-                </div>
-                <div class="field-row" style="flex: 2;">
-                    <strong class="field-label">ADDRESS:</strong>
-                    <div class="field-dotted">
-                        <span><%= note.patient_address || 'N/A' %></span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Phone -->
-            <div class="phone-section">
-                <div class="field-row" style="justify-content: flex-end;">
-                    <strong class="field-label">TEL:</strong>
-                    <div class="field-dotted" style="max-width: 200px;">
-                        <span><%= note.patient_phone || 'N/A' %></span>
+                <!-- Age, Sex, Address Row -->
+                <div class="form-row">
+                    <div class="field-row" style="flex: 1;">
+                        <strong class="field-label">AGE:</strong>
+                        <div class="field-dotted">
+                            <span>
+                                <%= note.age || 'N/A' %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field-row" style="flex: 1;">
+                        <strong class="field-label">SEX:</strong>
+                        <div class="field-dotted">
+                            <span>
+                                <%= note.gender || 'N/A' %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field-row" style="flex: 2;">
+                        <strong class="field-label">ADDRESS:</strong>
+                        <div class="field-dotted">
+                            <span>
+                                <%= note.patient_address || 'N/A' %>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Treatment Notes -->
-            <div class="notes-section" style="margin-top: 20px;">
-                <div style="color: #2563eb; font-weight: bold;">TREATMENT NOTES</div>
-                <div class="notes-content"></div>
-            </div>
+                <!-- Phone -->
+                <div class="phone-section">
+                    <div class="field-row" style="justify-content: flex-end;">
+                        <strong class="field-label">TEL:</strong>
+                        <div class="field-dotted" style="max-width: 200px;">
+                            <span>
+                                <%= note.patient_phone || 'N/A' %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Footer -->
-            <div class="footer">
-                <p>
-                    FOR: Teeth Filling, Crowns & Braces, Scaling & Polishing,
-                    Teeth Whitening & Root Canal Therapy (RCT)
-                </p>
+                <!-- Treatment Notes -->
+                <div class="notes-section" style="margin-top: 20px;">
+                    <div style="color: #2563eb; font-weight: bold;">TREATMENT NOTES</div>
+                    <div class="notes-content"></div>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer">
+                    <p>
+                        FOR: Teeth Filling, Crowns & Braces, Scaling & Polishing,
+                        Teeth Whitening & Root Canal Therapy (RCT)
+                    </p>
+                </div>
             </div>
 
         </div>

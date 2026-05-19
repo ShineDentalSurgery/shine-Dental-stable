@@ -246,7 +246,7 @@ async function updateReceipt(req, res) {
 
 async function viewPatientRecords(req, res) {
     try {
-        const patient_name = decodeURIComponent(req.params.patient_name);
+        const patient_name = decodeURIComponent(req.params.patient_name).trim();
         
         // First check if there are multiple patients with this name
         const db = require("../config/db")();
