@@ -251,7 +251,7 @@
     }
 
     .expenses-table {
-        width: 100%;
+        /* width: 100%; */
         border-collapse: collapse;
         background: white;
     }
@@ -265,7 +265,7 @@
         padding: 12px 14px;
         text-align: left;
         font-weight: 600;
-        color: #fff;
+        color: #070707;
         font-size: 13px;
     }
 
@@ -528,7 +528,7 @@
                                             <td>
                                                 <div class="action-buttons">
                                                     <% if (Number(user.id) === Number(expense.created_by)) { %>
-                                                        <button class="btn-small btn-edit" onclick="editExpense(<%= expense.id %>)" title="Edit"><i class="fas fa-edit"></i></button>
+                                                        <!-- <button class="btn-small btn-edit" onclick="editExpense(<%= expense.id %>)" title="Edit"><i class="fas fa-edit"></i></button> -->
                                                         <button class="btn-small btn-delete" onclick="deleteExpense(<%= expense.id %>)" title="Delete"><i class="fas fa-trash"></i></button>
                                                     <% } else { %>
                                                         <span class="no-actions">View Only</span>

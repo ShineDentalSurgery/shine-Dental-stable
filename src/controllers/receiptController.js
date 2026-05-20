@@ -72,11 +72,21 @@ async function addReceipt(req, res) {
             return res.status(500).json({ message: "Error adding receipt" });
         }
 
-        const data = await ReceiptItem.getReceipts();
+        const data = await ReceiptItem.getReceipts(1, 100);
+        const totalPages = Math.max(1, Math.ceil(data.totalCount / 100));
 
         return res.status(201).render("receipts", {
             title: "Receipts",
-            receipts: data,
+            receipts: data.receipts,
+            pagination: {
+                page: 1,
+                perPage: 100,
+                totalCount: data.totalCount,
+                totalPages,
+                hasNextPage: totalPages > 1,
+                hasPrevPage: false
+            },
+            search: '',
             user: req.user
         });
 
@@ -106,27 +116,45 @@ async function deleteReciept(req, res) {
 
 async function getAllReceipts(req, res, next) {
     try {
-        const data = await ReceiptItem.getReceipts();
-        data.forEach(receipt => {
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const perPage = 100;
+        const search = req.query.search ? req.query.search.trim() : '';
+        const data = await ReceiptItem.getReceipts(page, perPage, search);
+
+        data.receipts.forEach(receipt => {
             // Use formatService to safely handle any service format
             receipt.service = formatService(receipt.service);
 
             // Format phone numbers to replace '0' with '256'
-            if (receipt.patient_phone.startsWith('0')) {
+            if (receipt.patient_phone && receipt.patient_phone.startsWith('0')) {
                 receipt.patient_phone = '256' + receipt.patient_phone.slice(1);
             }
         });
 
+        const totalPages = Math.max(1, Math.ceil(data.totalCount / perPage));
+        const pagination = {
+            page,
+            perPage,
+            totalCount: data.totalCount,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1
+        };
+
         if (req.user.usertype === 'admin') {
             return res.render("adminReceipts", {
                 title: "Admin Receipts",
-                receipts: data,
+                receipts: data.receipts,
+                pagination,
+                search,
                 user: req.user
             });
         } else {
             return res.render("receipts", {
                 title: "Receipts List",
-                receipts: data,
+                receipts: data.receipts,
+                pagination,
+                search,
                 user: req.user
             });
         }

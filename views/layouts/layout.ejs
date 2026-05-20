@@ -1,36 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head') %>
-<style>
-    html, body {
-        overflow-x: hidden;
-    }
-    body {
-        min-width: 0;
-    }
-    main.main-content {
-        max-width: calc(100vw - 250px);
-    }
-    @media (max-width: 1024px) {
-        main.main-content {
-            max-width: calc(100vw - 0px);
-            margin-left: 0 !important;
-        }
-    }
-</style>
-
-    <body>
-        <div id="wrapper">
-            <%- include('../partials/header') %>
-                <%- include('../partials/navigation') %>
-                <%- include('../partials/sidebar') %>
-                    <main style="margin-left: <% if (user) { %>250px<% } else { %>0px<% } %>; min-height: calc(100vh - 70px);" class="main-content">
-                        <%- body %>
-                    </main>
-
-                    <%- include('../partials/footer') %>
-        </div>
-
-    </body>
-
+<body>
+    <div id="wrapper">
+        <%- include('../partials/header') %>
+        <%- include('../partials/navigation') %>
+        <%- include('../partials/sidebar') %>
+        <main style="margin-left: <% if (user) { %>250px<% } else { %>0px<% } %>; min-height: calc(100vh - 70px);" class="main-content">
+            <%- body %>
+        </main>
+        <%- include('../partials/footer') %>
+    </div>
+</body>
 </html>
