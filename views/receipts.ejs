@@ -13,6 +13,43 @@
             display: none;
         }
 
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .pagination .page-link {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: #fff;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .pagination .page-link:hover {
+            background: #f0f0f0;
+        }
+
+        .pagination .page-info {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .balance-negative {
+            color: #dc3545;
+        }
+
+        .balance-positive {
+            color: #28a745;
+        }
+
         /* Scroll to bottom button */
         #scrollToBottomBtn {
             display: none;
@@ -54,14 +91,19 @@
             <h2>
                 <%= title %>
             </h2>
-            <input type="text" id="filter" placeholder="Search Patient.... ">
-
-            <a href="/receipt"
-                style="margin-bottom: 15px; padding: 10px 20px; background-color: #589f14; color: white; text-decoration: none; border-radius: 4px; display: inline-block;">+
-                New Receipt</a>
+            <form method="GET" action="/receipts" style="margin-bottom: 15px; align-items:center;">
+                <input type="text" name="search" id="filter" placeholder="Search patient name, phone, or ID..."
+                    value="<%= typeof search !== 'undefined' ? search : '' %>"
+                    style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; min-width: 240px; width: 100%; max-width: 400px;">
+                <button type="submit"
+                    style="padding: 10px 16px; border-radius: 4px; border: none; background:#589f14; color:white; cursor:pointer;">Search</button>
+                <a href="/receipt"
+                    style="margin-bottom: 15px; padding: 10px 20px; background-color: #589f14; color: white; text-decoration: none; border-radius: 4px; display: inline-block;">+
+                    New Receipt</a>
+            </form>
             <table>
                 <thead>
-                        <tr>
+                    <tr>
                         <th>Receipt ID</th>
                         <th>Date</th>
                         <th>Patient Name</th>
@@ -85,58 +127,60 @@
                                     <%= receipt.patient_name %>
                                 </a> </td>
                             <td>
-                                <a href="https://wa.me/<%= receipt.patient_phone.replace(/\D/g, '') %>?text=Hello%20<%= encodeURIComponent(receipt.patient_name) %>,%20thank%20you%20for%20Choosing%20Shine%20Dental%20Surgery%>."
+                                <a href="https://wa.me/<%= receipt.patient_phone.replace(/\D/g, '') %>?text=<%= encodeURIComponent(`Hello ${receipt.patient_name}, thank you for choosing Shine Dental Surgery. Call/WhatsApp us on: +256702608900 | +256705026289`) %>"
                                     target="_blank" style="color: #25D366; text-decoration: none;"
                                     title="Send WhatsApp message">
+
                                     Tel: <%= formatPhone(receipt.patient_phone) %>
+
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
                                             alt="WhatsApp" style="height:16px;vertical-align:middle;margin-left:4px;">
                                 </a>
                             </td>
-                        <td><span style="color: #000000; font-weight: bold;">
+                            <td><span style="color: #000000; font-weight: bold;">
                                     UGX <%= Number(receipt.amount_paid).toLocaleString('en-US') %>
-                                        </span></td>
-                                           <td>
+                                </span></td>
+                            <td>
                                 <%= receipt.mode_of_payment %>
                             </td>
-                        <td><span style="color: <%=Number(receipt.balance)> 0 ? '#dc3545' : '#28a745' %>; font-weight:
-                                    bold;">
+                            <td><span
+                                    class="<%= Number(receipt.balance) > 0 ? 'balance-negative' : 'balance-positive' %>"
+                                    style="font-weight: bold;">
                                     UGX <%= Number(receipt.balance).toLocaleString('en-US') %>
-                                        </span>
+                                </span>
                             </td>
                             <td>
                                 <% if (user && user.usertype==='admin' ) { %>
                                     <button onclick="deleteReceipt('<%= receipt.id %>')"
                                         style="color: white;">Delete</button>
                                     <% } %>
-                                <a href="/receipts/patient/<%= encodeURIComponent(receipt.patient_name) %>"
-                                    style="margin-left: 5px; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 3px; display: inline-block;">
-                                    View Patient
-                                </a>
+                                        <a href="/receipts/patient/<%= encodeURIComponent(receipt.patient_name) %>"
+                                            style="margin-left: 5px; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 3px; display: inline-block;">
+                                            View Patient
+                                        </a>
                             </td>
                         </tr>
                         <% }) %>
                 </tbody>
             </table>
+            <% if (pagination && pagination.totalPages> 1) { %>
+                <div class="pagination">
+                    <% if (pagination.hasPrevPage) { %>
+                        <a class="page-link"
+                            href="/receipts?page=<%= pagination.page - 1 %><%= search ? '&search=' + encodeURIComponent(search) : '' %>">←
+                            Previous</a>
+                        <% } %>
+                            <span class="page-info">Page <%= pagination.page %> of <%= pagination.totalPages %></span>
+                            <% if (pagination.hasNextPage) { %>
+                                <a class="page-link"
+                                    href="/receipts?page=<%= pagination.page + 1 %><%= search ? '&search=' + encodeURIComponent(search) : '' %>">Next
+                                    →</a>
+                                <% } %>
+                </div>
+                <% } %>
         </div>
     </div>
     <script>
-        document.getElementById('filter').addEventListener('input', function () {
-            const filterValue = this.value.toLowerCase();
-            const rows = document.querySelectorAll("tbody tr");
-
-            rows.forEach(row => {
-                const cells = row.querySelectorAll("td");
-                let match = false;
-                cells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(filterValue)) {
-                        match = true;
-                    }
-                });
-                row.style.display = match ? "" : "none";
-            });
-        });
-
         function formatPhoneNumber(phoneNumber) {
             // Remove all non-digit characters
             const cleanPhone = phoneNumber.replace(/\D/g, '');
@@ -181,26 +225,26 @@
         });
     </script>
 
-<button id="scrollToBottomBtn" title="Scroll to bottom">↓</button>
+    <button id="scrollToBottomBtn" title="Scroll to bottom">↓</button>
 
-<script>
-    const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            scrollToBottomBtn.style.display = 'block';
-        } else {
-            scrollToBottomBtn.style.display = 'none';
-        }
-    });
-    
-    scrollToBottomBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: 'smooth'
+    <script>
+        const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToBottomBtn.style.display = 'block';
+            } else {
+                scrollToBottomBtn.style.display = 'none';
+            }
         });
-    });
-</script>
+
+        scrollToBottomBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -233,13 +233,43 @@ async function getReceiptDetails(id) {
     }
 }
 
-async function getReceipts() {
+async function getReceipts(page, perPage, search) {
     const db = await initializeDatabase();
     try {
+        const searchTerm = search && search.toString().trim().length > 0
+            ? `%${search.toString().trim().toLowerCase()}%`
+            : null;
+
+        const whereClause = searchTerm
+            ? `WHERE LOWER(patient_name) LIKE ? OR LOWER(patient_phone) LIKE ? OR LOWER(patient_id) LIKE ?`
+            : '';
+        const whereParams = searchTerm ? [searchTerm, searchTerm, searchTerm] : [];
+
+        if (page === undefined && perPage === undefined) {
+            const [result] = await db.query(
+                `SELECT * FROM receipts ${whereClause} ORDER BY created_at DESC`,
+                whereParams
+            );
+            return result;
+        }
+
+        const normalizedPage = Number.isInteger(page) && page > 0 ? page : 1;
+        const normalizedLimit = Number.isInteger(perPage) && perPage > 0 ? perPage : 100;
+        const offset = (normalizedPage - 1) * normalizedLimit;
+
         const [result] = await db.query(
-            `SELECT * FROM receipts ORDER BY id DESC`
+            `SELECT * FROM receipts ${whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+            [...whereParams, normalizedLimit, offset]
         );
-        return result;
+        const [countRows] = await db.query(
+            `SELECT COUNT(*) as total FROM receipts ${whereClause}`,
+            whereParams
+        );
+
+        return {
+            receipts: result,
+            totalCount: countRows[0].total
+        };
     } catch (error) {
         logger.error(`Error in getReceipts: ${error.message}`, error);
         throw error;
